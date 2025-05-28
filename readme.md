@@ -1,56 +1,91 @@
-Welcome to our technical assessment repository! This collection of challenges is designed to evaluate your ability to build AI-powered recruitment tools that solve real-world problems.
+# Recruitly.io - Interview Question Generator
 
-## Instructions
+## Project Overview
+Create a system that generates relevant technical interview questions tailored to specific job requirements and skill levels.
+Video Demonstration: https://www.loom.com/share/7d0d4dcbe5404d59b2f7a6877a5806f2?sid=56498f33-84ae-4540-9fab-b026bd9b8d84
+---
 
-1. Review the challenges below
-2. Choose ONE that best matches your skills and interests
-3. Fork this repository and implement your solution
-4. Submit a pull request with your completed challenge
+## System Requirements
+Ensure your system meets the following requirements before proceeding:
 
-## About Our Platform
+- **Node.js**: v21.2.0 or higher
+- **npm/yarn**: Latest version
+- **MongoDB**: v4.0 or higher (for backend database)
 
-We are building an Agentic recruitment platform with specialized agents that automate key aspects of the hiring process. Our technology stack includes React, Node.js, TypeScript, and modern AI/LLM integrations.
+## Tech Stack
 
-## Challenge Options
+- **Backend**: Node.js, Exprses
+- **Database**: MongoDB
+- **Frontend**: React.js, Tailwind CSS
 
-Choose ONE of the following challenges:
+## Installation Instructions
+In Github, client & server reside under the same directory, so just clone the parent one.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo-url.git
 
-### [Advanced Candidate Matching System](./candidate-matcher.md)
-Design an intelligent system that matches candidates to jobs by understanding skill equivalence, experience depth, and potential fit.
+### Backend (BE)
 
-### [Intelligent Resume Parser](./resume-analyzer.md)
-Build a system that extracts structured, validated data from unstructured resume content.
+1. Change directory:
+    ```bash
+    cd server
+2. Install dependencies:
+   ```bash
+   npm install
+3. Copy all env's from env.example, create .env & paste all here
+4. Make sure you have Mongo DB & Google Gemini setup. For MongoDB, we need MongoURL (either local or atlas), for gemini, we need API KEY, you can generate it from google ai studio (https://aistudio.google.com/apikey). Once both is setup, you can update your env variables.
+5. Start the backend server:
+    ```bash
+   npm run dev
 
-### [Candidate Engagement Chatbot](./candidate-engagement-bot.md)
-Create a conversational agent that provides job information while qualifying candidates through natural dialogue.
+Make sure to copy all envs from env.example to .env
 
-### [Technical Interview Question Generator](./interview-generator.md)
-Develop a tool that generates tailored technical interview questions with appropriate difficulty calibration.
+### Frontend (FE)
 
-## Evaluation Criteria
+1. Change directory:
+    ```bash
+    cd client
+2. Install dependencies:
+   ```bash
+   npm install
+3. Start the client:
+    ```bash
+   npm run dev
 
-Regardless of which challenge you choose, we'll evaluate your submission on:
+## Postman Collection
+I have also added Postman collection, please import it while calling API's
 
-1. **Problem Solving**: How you approach and decompose a complex problem
-2. **AI Integration**: Strategic use of LLMs beyond simple prompt engineering
-3. **Code Quality**: Structure, readability, and maintainability
-4. **System Design**: Architecture decisions and technical tradeoffs
-5. **Functionality**: Effectiveness of your solution for the intended use case
+    ```bash
+    ./recruitly.io.postman_collection.json
 
-## Time Expectation
 
-Each challenge is designed to take approximately 4-8 hours. We value your time and don't expect a production-ready system. Focus on demonstrating your approach and technical thinking rather than perfecting every detail.
+## DB Schema
+We have just one collection called Questions, where we hold questions related to specific job title, skill & difficulty.
 
-## Submission Process
-
-1. Fork this repository
-2. Create a new branch with a descriptive name (`your-name-solution`)
-3. Implement your solution
-4. Submit a pull request with a summary of your approach
-5. Include setup instructions in your README
-
-We're excited to see your creative solutions to these challenges!
-
-## Questions?
-
-If you have questions about the assignment, please open an issue in this repository.
+```js
+const questionSchema = new mongoose.Schema(
+    {
+        jobTitle: {
+            type: String,
+            required: true,
+        },
+        skill: {
+            type: String,
+            required: true,
+        },
+        question: {
+            type: String,
+            required: true,
+        },
+        difficulty: {
+            type: String,
+            enum: ['easy', 'medium', 'hard'],
+            default: 'easy',
+        },
+        evaluationCriteria: {
+            type: String,
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
